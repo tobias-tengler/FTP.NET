@@ -11,12 +11,8 @@ namespace Ftp.Net
 
         IFtpClientLogger Logger { get; set; }
 
-        bool Connect(IPAddress host, ushort port, FtpClientEncryptionLevel encryptionLevel);
+        ValueTask<bool> ConnectAsync(IPAddress host, ushort port, FtpClientEncryptionLevel encryptionLevel, CancellationToken token = default);
 
-        Task<bool> ConnectAsync(IPAddress host, ushort port, FtpClientEncryptionLevel encryptionLevel, CancellationToken token = default);
-
-        void Disconnect();
-
-        Task DisconnectAsync(CancellationToken token = default);
+        ValueTask DisconnectAsync(CancellationToken token = default);
     }
 }
