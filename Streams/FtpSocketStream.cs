@@ -10,10 +10,10 @@ namespace Ftp.Net
 {
     internal class FtpSocketStream : Stream
     {
-        private Socket _socket;
-        private NetworkStream _networkStream;
-        private StreamReader _streamReader;
-        private StreamWriter _streamWriter;
+        private Socket? _socket;
+        private NetworkStream? _networkStream;
+        private StreamReader? _streamReader;
+        private StreamWriter? _streamWriter;
 
         private readonly Encoding _encoding = Encoding.UTF8;
 
@@ -29,11 +29,11 @@ namespace Ftp.Net
 
         public bool Connected => _socket != null && _socket.Connected;
 
-        private Stream BaseStream => _networkStream;
+        private Stream? BaseStream => _networkStream;
 
         public void SetSocketOption(SocketOptionLevel optionLevel, SocketOptionName optionName, bool optionValue)
         {
-            _socket.SetSocketOption(optionLevel, optionName, optionValue);
+            _socket?.SetSocketOption(optionLevel, optionName, optionValue);
         }
 
         #region Read
@@ -56,6 +56,8 @@ namespace Ftp.Net
 
         public Task<string> ReadLineAsync()
         {
+            if (_streamReader == null) throw new Exception();
+
             return _streamReader.ReadLineAsync();
         }
         #endregion
@@ -80,6 +82,8 @@ namespace Ftp.Net
 
         public Task WriteLineAsync(ReadOnlyMemory<char> line, CancellationToken token = default)
         {
+            if (_streamWriter == null) throw new Exception();
+
             return _streamWriter.WriteLineAsync(line, token);
         }
         #endregion

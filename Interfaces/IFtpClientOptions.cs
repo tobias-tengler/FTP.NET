@@ -5,11 +5,11 @@ namespace Ftp.Net
 {
     public interface IFtpClientOptions
     {
-        IPAddress HostAddress { get; set; }
+        IPAddress? HostAddress { get; set; }
 
         ushort HostPort { get; set; }
 
-        FtpClientCredentials Credentials { get; set; }
+        FtpClientCredentials? Credentials { get; set; }
 
         int Timeout { get; set; }
 

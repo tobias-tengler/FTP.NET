@@ -8,7 +8,7 @@ namespace Ftp.Net
     {
         public FtpClient() { }
 
-        public FtpClient(IFtpClientLogger logger)
+        public FtpClient(IFtpClientLogger? logger)
         {
             Logger = logger;
         }
@@ -18,12 +18,12 @@ namespace Ftp.Net
             Dispose();
         }
 
-        public bool Connected { get; }
+        public bool Connected => _stream?.Connected ?? false;
 
-        public IFtpClientLogger Logger { get; set; }
-        public IPAddress HostAddress { get; set; }
+        public IFtpClientLogger? Logger { get; set; }
+        public IPAddress? HostAddress { get; set; }
         public ushort HostPort { get; set; }
-        public FtpClientCredentials Credentials { get; set; }
+        public FtpClientCredentials? Credentials { get; set; }
         public int Timeout { get; set; }
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         public FtpClientEncryptionLevel EncryptionLevel { get; set; }

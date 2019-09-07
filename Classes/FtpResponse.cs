@@ -19,9 +19,9 @@ namespace Ftp.Net
 
         public uint Code { get; set; }
 
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
-        public string Data { get; set; }
+        public string? Data { get; set; }
 
         public bool Success => Code >= 100 && Code < 400;
     }

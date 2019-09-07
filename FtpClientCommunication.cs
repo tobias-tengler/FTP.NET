@@ -10,10 +10,11 @@ namespace Ftp.Net
 {
     public partial class FtpClient
     {
-        private FtpSocketStream _stream;
+        private FtpSocketStream? _stream;
 
-        public async ValueTask<bool> ConnectAsync(IPAddress host, ushort port, FtpClientEncryptionLevel encryptionLevel, CancellationToken token = default)
+        public async ValueTask<bool> ConnectAsync(IPAddress? host, ushort port, FtpClientEncryptionLevel encryptionLevel, CancellationToken token = default)
         {
+            if (host == null) throw new ArgumentNullException(nameof(host));
             if (_stream != null) return false;
 
             _stream = new FtpSocketStream();
@@ -21,6 +22,13 @@ namespace Ftp.Net
             await _stream.ConnectAsync(host, port);
 
             _stream.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
+            var handShakeResp = await GetResponseAsync();
+
+            if (!handShakeResp.Success) return false;
+
+            if (Credentials != null && !await AuthenticateAsync(Credentials.Username, Credentials.Password, token))
+                return false;
 
             return true;
         }
@@ -40,15 +48,31 @@ namespace Ftp.Net
             }
         }
 
+        private async Task<bool> AuthenticateAsync(string username, string password, CancellationToken token = default)
+        {
+            var usernameResp = await SendAsync(FtpCommands.Username, username, token);
+
+            if (!usernameResp.Success) return false;
+
+            var passwordResp = await SendAsync(FtpCommands.Password, password, token);
+
+            return passwordResp.Success;
+        }
+
+        private Task<FtpResponse> SendAsync(string command, string parameter, CancellationToken token = default)
+        {
+            return SendAsync($"{command} {parameter}".AsMemory(), token);
+        }
+
         private async Task<FtpResponse> SendAsync(ReadOnlyMemory<char> command, CancellationToken token = default)
         {
-            if (_stream == null) return null;
+            if (_stream == null) throw new Exception();
 
             if (!Connected)
             {
                 if (command.Equals(FtpCommands.Quit)) return new FtpResponse(200);
 
-                // await ConnectAsync(token);
+                if (!await this.ConnectAsync(token)) throw new Exception();
             }
 
             await _stream.WriteLineAsync(command, token);
@@ -58,7 +82,9 @@ namespace Ftp.Net
 
         private async Task<FtpResponse> GetResponseAsync()
         {
-            FtpResponse resp = null;
+            if (_stream == null) throw new Exception();
+
+            var resp = new FtpResponse();
             var data = new StringBuilder();
 
             string buffer;
@@ -73,7 +99,8 @@ namespace Ftp.Net
                     uint.TryParse(match.Groups["code"].Value, out var code);
                     var message = match.Groups["message"].Value;
 
-                    resp = new FtpResponse(code, message);
+                    resp.Code = code;
+                    resp.Message = message;
 
                     var separator = match.Groups["separator"].Value;
 
