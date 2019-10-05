@@ -28,7 +28,7 @@ namespace Ftp.Net
             return false;
         }
 
-        private static (string hostName, IPAddress? address, ushort port, FtpClientEncryptionLevel encryptionLevel) GetDetailsFromUri(Uri uri)
+        private static (string hostName, IPAddress? address, ushort port, FtpEncryptionLevel encryptionLevel) GetDetailsFromUri(Uri uri)
         {
             return (uri.DnsSafeHost, GetIPAddressFromUri(uri), GetPortFromUri(uri), GetEncryptionLevelFromUri(uri));
         }
@@ -43,13 +43,13 @@ namespace Ftp.Net
             return (ushort)uri.Port;
         }
 
-        private static FtpClientEncryptionLevel GetEncryptionLevelFromUri(Uri uri)
+        private static FtpEncryptionLevel GetEncryptionLevelFromUri(Uri uri)
         {
             return uri.Scheme switch
             {
-                "ftps" => FtpClientEncryptionLevel.Implicit,
-                "ftpes" => FtpClientEncryptionLevel.Explicit,
-                _ => FtpClientEncryptionLevel.None
+                "ftps" => FtpEncryptionLevel.Implicit,
+                "ftpes" => FtpEncryptionLevel.Explicit,
+                _ => FtpEncryptionLevel.None
             };
         }
     }

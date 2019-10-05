@@ -23,9 +23,9 @@ namespace Ftp.Net
         public IFtpClientLogger? Logger { get; set; }
         public IPAddress? HostAddress { get; set; }
         public ushort HostPort { get; set; }
-        public FtpClientCredentials? Credentials { get; set; }
+        public FtpCredentials? Credentials { get; set; }
         public int Timeout { get; set; }
         public Encoding Encoding { get; set; } = Encoding.UTF8;
-        public FtpClientEncryptionLevel EncryptionLevel { get; set; }
+        public FtpEncryptionLevel EncryptionLevel { get; set; }
     }
 }

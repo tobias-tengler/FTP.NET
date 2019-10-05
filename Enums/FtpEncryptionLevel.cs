@@ -1,6 +1,6 @@
 namespace Ftp.Net
 {
-    public enum FtpClientEncryptionLevel
+    public enum FtpEncryptionLevel
     {
         None,
         Implicit,

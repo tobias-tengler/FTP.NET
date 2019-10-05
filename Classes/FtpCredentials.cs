@@ -1,8 +1,8 @@
 namespace Ftp.Net
 {
-    public class FtpClientCredentials
+    public class FtpCredentials
     {
-        public FtpClientCredentials(string username, string password)
+        public FtpCredentials(string username, string password)
         {
             Username = username;
             Password = password;

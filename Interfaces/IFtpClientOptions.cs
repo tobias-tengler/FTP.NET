@@ -9,12 +9,12 @@ namespace Ftp.Net
 
         ushort HostPort { get; set; }
 
-        FtpClientCredentials? Credentials { get; set; }
+        FtpCredentials? Credentials { get; set; }
 
         int Timeout { get; set; }
 
         Encoding Encoding { get; set; }
 
-        FtpClientEncryptionLevel EncryptionLevel { get; set; }
+        FtpEncryptionLevel EncryptionLevel { get; set; }
     }
 }

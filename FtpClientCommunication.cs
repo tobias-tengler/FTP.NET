@@ -12,7 +12,7 @@ namespace Ftp.Net
     {
         private FtpSocketStream? _stream;
 
-        public async ValueTask<bool> ConnectAsync(IPAddress? host, ushort port, FtpClientEncryptionLevel encryptionLevel, CancellationToken token = default)
+        public async ValueTask<bool> ConnectAsync(IPAddress? host, ushort port, FtpEncryptionLevel encryptionLevel, CancellationToken token = default)
         {
             if (host == null) throw new ArgumentNullException(nameof(host));
             if (_stream != null) return false;

@@ -1,6 +1,6 @@
 namespace Ftp.Net
 {
-    public enum FtpClientLogLevel
+    public enum FtpLogLevel
     {
         Trace = 0,
         Debug = 1,
