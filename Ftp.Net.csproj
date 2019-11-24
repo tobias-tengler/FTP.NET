@@ -8,7 +8,6 @@
     <PropertyGroup>
         <PackageId>Ftp.Net</PackageId>
         <Version>0.0.1</Version>
-        <Authors>tobiastengler</Authors>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Description></Description>
         <PackageTags></PackageTags>
