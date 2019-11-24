@@ -9,9 +9,13 @@
         <PackageId>Ftp.Net</PackageId>
         <Version>0.0.1</Version>
         <Authors>tobiastengler</Authors>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <Description></Description>
         <PackageTags></PackageTags>
         <RepositoryUrl>https://github.com/tobias-tengler/Ftp.Net</RepositoryUrl>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="LICENSE" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+    </ItemGroup>
 </Project>
